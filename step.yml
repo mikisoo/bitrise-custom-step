@@ -18,37 +18,49 @@ run_if: ""
 
 deps:
   brew:
-  - name: git
-  - name: wget
+  - name: awscli
+    bin_name: aws
   apt_get:
-  - name: git
-  - name: wget
-
+  - name: awscli
+    bin_name: aws
 
 toolkit:
   go:
     package_name: moneylion.com/security/bitrise-step-aws-secrets-manager
 
-
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - aws_access_key_id: $aws_AccessKeyID
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
-      is_expand: true
+      title: "AWS Access Key"
+      summary: AWS Access Key
+      description: Access key for your AWS/IAM user. Define this as a secret environment
+        variable in your workflow.
+      is_sensitive:  true
       is_required: true
-      value_options: []
+  - aws_secret_access_key: $aws_secretAccessKey
+    opts:
+      description: Secret key for your AWS/IAM user. Define this as a secret environment
+        variable in your workflow.
+      is_required: true
+      is_sensitive: true
+      summary: "AWS Secret Access Key"
+      title: AWS Secret Key
+  - iam_role_arn: $iamRoleArn
+    opts:
+      description: iam role for assume for your AWS/IAM user.
+      is_required: true
+      is_sensitive: true
+      summary: "AWS Iam Role Arn"
+      title: AWS Iam Role Arn
 
 outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - KIUWAN_USERNAME:
     opts:
-      title: "Example Step Output"
+      title: Kiuwan username
       summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
+      description: kiuwan username extract from aws secrets manager
+  - KIUWAN_PASSWORD:
+    opts:
+      title: kiuwan password
+      summary: Summary. No more than 2-3 sentences.
+      description: kiuwan password extract from aws secrets manager
